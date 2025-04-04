@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Account - Unlimited Kickz</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .account-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .account-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .btn {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background: black;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background: red;
+        }
+        .account-section {
+            display: none;
+        }
+        .logout-btn {
+            background: red;
+            margin-top: 10px;
+        }
+        .profile-container {
+            text-align: center;
+        }
+        .order-history {
+            margin-top: 20px;
+        }
+        .order-item {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><img src="images/logo.png" alt="Unlimited Kickz Logo"></div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="new-arrivals.html">New Arrivals</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="customer-service.html">Customer Service</a></li>
+                <li><a href="blog.html">Blog & News</a></li>
+                <li><a href="account.html">User Account</a></li>
+                <li><a href="cart.html">Cart 🛒</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="account-container" id="login-section">
+        <h2>Login</h2>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="login-email">Email</label>
+                <input type="email" id="login-email" required>
+            </div>
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" required>
+            </div>
+            <button type="submit" class="btn">Login</button>
+            <p>Don't have an account? <a href="#" id="show-signup">Sign Up</a></p>
+        </form>
+    </section>
+
+    <section class="account-container" id="signup-section" style="display: none;">
+        <h2>Sign Up</h2>
+        <form id="signup-form">
+            <div class="form-group">
+                <label for="signup-name">Full Name</label>
+                <input type="text" id="signup-name" required>
+            </div>
+            <div class="form-group">
+                <label for="signup-email">Email</label>
+                <input type="email" id="signup-email" required>
+            </div>
+            <div class="form-group">
+                <label for="signup-password">Password</label>
+                <input type="password" id="signup-password" required>
+            </div>
+            <button type="submit" class="btn">Sign Up</button>
+            <p>Already have an account? <a href="#" id="show-login">Login</a></p>
+        </form>
+    </section>
+
+    <section class="account-container account-section" id="profile-section">
+        <h2>Welcome, <span id="user-name"></span>!</h2>
+        <div class="profile-container">
+            <p>Email: <span id="user-email"></span></p>
+            <button class="btn logout-btn" id="logout-btn">Logout</button>
+        </div>
+
+        <div class="order-history">
+            <h3>Order History</h3>
+            <div id="order-list"></div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Unlimited Kickz. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const loginSection = document.getElementById("login-section");
+            const signupSection = document.getElementById("signup-section");
+            const profileSection = document.getElementById("profile-section");
+            const showSignupBtn = document.getElementById("show-signup");
+            const showLoginBtn = document.getElementById("show-login");
+            const loginForm = document.getElementById("login-form");
+            const signupForm = document.getElementById("signup-form");
+            const logoutBtn = document.getElementById("logout-btn");
+
+            function showProfile() {
+                const user = JSON.parse(localStorage.getItem("user"));
+                if (user) {
+                    document.getElementById("user-name").textContent = user.name;
+                    document.getElementById("user-email").textContent = user.email;
+                    loginSection.style.display = "none";
+                    signupSection.style.display = "none";
+                    profileSection.style.display = "block";
+                    loadOrderHistory();
+                }
+            }
+
+            function loadOrderHistory() {
+                const orderList = document.getElementById("order-list");
+                const orders = JSON.parse(localStorage.getItem("checkoutItems")) || [];
+                if (orders.length === 0) {
+                    orderList.innerHTML = "<p>No orders placed yet.</p>";
+                } else {
+                    orderList.innerHTML = orders.map(order => `
+                        <div class="order-item">
+                            <p><strong>${order.name}</strong> - ${order.price} (Qty: ${order.quantity})</p>
+                        </div>
+                    `).join("");
+                }
+            }
+
+            loginForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+                const email = document.getElementById("login-email").value.trim();
+                const password = document.getElementById("login-password").value.trim();
+                const storedUser = JSON.parse(localStorage.getItem("user"));
+
+                if (storedUser && storedUser.email === email && storedUser.password === password) {
+                    alert("Login successful!");
+                    showProfile();
+                } else {
+                    alert("Invalid email or password.");
+                }
+            });
+
+            signupForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+                const name = document.getElementById("signup-name").value.trim();
+                const email = document.getElementById("signup-email").value.trim();
+                const password = document.getElementById("signup-password").value.trim();
+
+                const newUser = { name, email, password };
+                localStorage.setItem("user", JSON.stringify(newUser));
+                alert("Account created! Please log in.");
+                signupSection.style.display = "none";
+                loginSection.style.display = "block";
+            });
+
+            logoutBtn.addEventListener("click", function () {
+                localStorage.removeItem("user");
+                profileSection.style.display = "none";
+                loginSection.style.display = "block";
+            });
+
+            showSignupBtn.addEventListener("click", () => {
+                loginSection.style.display = "none";
+                signupSection.style.display = "block";
+            });
+
+            showLoginBtn.addEventListener("click", () => {
+                signupSection.style.display = "none";
+                loginSection.style.display = "block";
+            });
+
+            showProfile();
+        });
+    </script>
+
+</body>
+</html>

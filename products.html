@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - Unlimited Kickz</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo"><img src="images/logo.png" alt="Unlimited Kickz Logo"></div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="signup.html">Sign Up</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li>
+                    <a href="cart.html">Cart 🛒</a>
+                    <span id="cart-badge" class="cart-badge" style="display: none;">0</span>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="products">
+        <h1>Our Exclusive Sneaker Collection</h1>
+
+        <div class="product-grid">
+            <div class="product">
+                <img src="images/jordan1.jpg" alt="Air Jordan 1">
+                <h2>Air Jordan 1</h2>
+                <p>$200</p>
+                <button class="add-to-cart btn" data-name="Air Jordan 1" data-price="200" data-image="images/jordan1.jpg">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="images/nike-dunk.jpg" alt="Nike Dunk Low">
+                <h2>Nike Dunk Low</h2>
+                <p>$150</p>
+                <button class="add-to-cart btn" data-name="Nike Dunk Low" data-price="150" data-image="images/nike-dunk.jpg">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="images/adidas-ultraboost.jpg" alt="Adidas Ultraboost">
+                <h2>Adidas Ultraboost</h2>
+                <p>$200</p>
+                <button class="add-to-cart btn" data-name="Adidas Ultraboost" data-price="200" data-image="images/adidas-ultraboost.jpg">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="images/jordan11.jpg" alt="Air Jordan 11 Jubilee">
+                <h2>Air Jordan 11 Jubilee</h2>
+                <p>$220</p>
+                <button class="add-to-cart btn" data-name="Air Jordan 11 Jubilee" data-price="220" data-image="images/jordan11.jpg">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="images/nike-airmax.jpg" alt="Nike Air Max 90">
+                <h2>Nike Air Max 90</h2>
+                <p>$150</p>
+                <button class="add-to-cart btn" data-name="Nike Air Max 90" data-price="150" data-image="images/nike-airmax.jpg">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="images/adidas-yeezy.jpg" alt="Adidas Yeezy 350">
+                <h2>Adidas Yeezy 350</h2>
+                <p>$250</p>
+                <button class="add-to-cart btn" data-name="Adidas Yeezy 350" data-price="250" data-image="images/adidas-yeezy.jpg">Add to Cart</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Unlimited Kickz. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+            const cartBadge = document.getElementById("cart-badge");
+
+            function updateCartBadge() {
+                let totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+                if (totalQuantity > 0) {
+                    cartBadge.style.display = "flex";
+                    cartBadge.textContent = totalQuantity;
+                } else {
+                    cartBadge.style.display = "none";
+                }
+            }
+
+            document.querySelectorAll(".add-to-cart").forEach(button => {
+                button.addEventListener("click", function () {
+                    let name = this.getAttribute("data-name");
+                    let price = parseFloat(this.getAttribute("data-price"));
+                    let image = this.getAttribute("data-image");
+
+                    let existingItem = cartItems.find(item => item.name === name);
+
+                    if (existingItem) {
+                        existingItem.quantity++;
+                    } else {
+                        cartItems.push({ name, price, image, quantity: 1 });
+                    }
+
+                    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+                    updateCartBadge();
+                    alert(`${name} added to cart!`);
+                });
+            });
+
+            updateCartBadge();
+        });
+    </script>
+
+</body>
+</html>

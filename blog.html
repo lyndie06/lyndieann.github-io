@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog & News - Unlimited Kickz</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .blog-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .blog-post {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background: white;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .blog-post img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+        .blog-post h3 {
+            margin-top: 10px;
+        }
+        .blog-post p {
+            font-size: 14px;
+            color: #666;
+        }
+        .admin-section {
+            margin-top: 30px;
+            display: none;
+        }
+        .admin-section input, .admin-section textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .btn {
+            background: black;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background: red;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><img src="images/logo.png" alt="Unlimited Kickz Logo"></div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="new-arrivals.html">New Arrivals</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="customer-service.html">Customer Service</a></li>
+                <li><a href="blog.html">Blog & News</a></li>
+                <li><a href="account.html">User Account</a></li>
+                <li><a href="cart.html">Cart 🛒</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="blog-container">
+        <h1>Sneaker Updates & Reviews</h1>
+        <div id="blog-posts"></div>
+
+        <div class="admin-section" id="admin-section">
+            <h2>Add New Blog Post</h2>
+            <input type="text" id="blog-title" placeholder="Post Title">
+            <textarea id="blog-content" placeholder="Write your content here..." rows="4"></textarea>
+            <input type="text" id="blog-image" placeholder="Image URL">
+            <button class="btn" id="add-post">Add Post</button>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Unlimited Kickz. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const blogPostsContainer = document.getElementById("blog-posts");
+            const adminSection = document.getElementById("admin-section");
+            const addPostButton = document.getElementById("add-post");
+
+            let blogPosts = JSON.parse(localStorage.getItem("blogPosts")) || [
+                { 
+                    title: "🔥 Nike Air Jordan 1 Retro Review", 
+                    content: "A deep dive into the legendary Jordan 1 with its classic design and unmatched comfort.",
+                    image: "images/jordan1.jpg"
+                },
+                { 
+                    title: "👟 Adidas Yeezy Boost 350 - Worth the Hype?", 
+                    content: "We analyze the latest Yeezy drop and compare it to previous releases.",
+                    image: "images/yeezy.jpg"
+                },
+                { 
+                    title: "🚀 Upcoming Releases - April 2025", 
+                    content: "Check out the hottest sneakers dropping next month, including exclusive collabs!",
+                    image: "images/upcoming.jpg"
+                }
+            ];
+
+            function renderBlogPosts() {
+                blogPostsContainer.innerHTML = "";
+                blogPosts.forEach(post => {
+                    const postElement = document.createElement("div");
+                    postElement.classList.add("blog-post");
+                    postElement.innerHTML = `
+                        <img src="${post.image}" alt="${post.title}">
+                        <h3>${post.title}</h3>
+                        <p>${post.content}</p>
+                    `;
+                    blogPostsContainer.appendChild(postElement);
+                });
+                localStorage.setItem("blogPosts", JSON.stringify(blogPosts));
+            }
+
+            addPostButton.addEventListener("click", function () {
+                const title = document.getElementById("blog-title").value.trim();
+                const content = document.getElementById("blog-content").value.trim();
+                const image = document.getElementById("blog-image").value.trim();
+
+                if (title && content && image) {
+                    blogPosts.unshift({ title, content, image });
+                    renderBlogPosts();
+                    document.getElementById("blog-title").value = "";
+                    document.getElementById("blog-content").value = "";
+                    document.getElementById("blog-image").value = "";
+                } else {
+                    alert("Please fill all fields!");
+                }
+            });
+
+            function checkAdmin() {
+                const user = JSON.parse(localStorage.getItem("user"));
+                if (user && user.email === "admin@unlimitedkickz.com") {
+                    adminSection.style.display = "block";
+                }
+            }
+
+            renderBlogPosts();
+            checkAdmin();
+        });
+    </script>
+
+</body>
+</html>

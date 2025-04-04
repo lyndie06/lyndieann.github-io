@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Unlimited Kickz</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Basic styling for the contact page */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .contact-info, .contact-form, .map {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 48%;
+            margin-bottom: 20px;
+        }
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .contact-form button {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .contact-form button:hover {
+            background-color: #555;
+        }
+        .map iframe {
+            width: 100%;
+            height: 300px;
+            border: 0;
+            border-radius: 8px;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .contact-info, .contact-form, .map {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Contact Us - Unlimited Kickz</h1>
+</header>
+
+<div class="container">
+    <!-- Contact Information -->
+    <div class="contact-info">
+        <h2>Contact Information</h2>
+        <p><strong>Email:</strong> support@unlimitedkickz.com</p>
+        <p><strong>Phone:</strong> +1 800-KICKZ</p>
+        <p><strong>Address:</strong> 123 Sneaker St, Arima, Trinidad and Tobago</p>
+        <h3>Follow Us</h3>
+        <p>
+            <a href="https://facebook.com/unlimitedkickz" target="_blank">Facebook</a> |
+            <a href="https://twitter.com/unlimitedkickz" target="_blank">Twitter</a> |
+            <a href="https://instagram.com/unlimitedkickz" target="_blank">Instagram</a>
+        </p>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="contact-form">
+        <h2>Get In Touch</h2>
+        <form action="submit_form.php" method="POST">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <textarea name="message" rows="4" placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </div>
+</div>
+
+<!-- Embedded Map -->
+<div class="container">
+    <div class="map">
+        <h2>Our Location</h2>
+        <iframe src="https://www.google.com/maps/embed?pb=YOUR_MAP_EMBED_URL" allowfullscreen></iframe>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2025 Unlimited Kickz. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>

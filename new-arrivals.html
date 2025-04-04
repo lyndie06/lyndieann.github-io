@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Arrivals - Unlimited Kickz</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo"><img src="images/logo.png" alt="Unlimited Kickz Logo"></div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="new-arrivals.html">New Arrivals</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="customer-service.html">Customer Service</a></li>
+                <li><a href="blog.html">Blog & News</a></li>
+                <li><a href="account.html">User Account</a></li>
+                <li><a href="cart.html">Cart 🛒 <span id="cart-count">0</span></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="new-arrivals">
+        <h1>Latest Sneaker Arrivals</h1>
+        <p>Check out the freshest sneaker drops available now!</p>
+
+        <div class="product-grid">
+            <div class="product">
+                <img src="images/new-jordan4.jpg" alt="Air Jordan 4 Bred Reimagined">
+                <h3>Air Jordan 4 Bred Reimagined</h3>
+                <p>$210.00</p>
+                <button class="add-to-cart" data-name="Air Jordan 4 Bred Reimagined" data-price="$210.00" data-image="images/new-jordan4.jpg">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="images/new-nike-dunk-high.jpg" alt="Nike Dunk High Panda">
+                <h3>Nike Dunk High Panda</h3>
+                <p>$140.00</p>
+                <button class="add-to-cart" data-name="Nike Dunk High Panda" data-price="$140.00" data-image="images/new-nike-dunk-high.jpg">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="images/new-air-force.jpg" alt="Nike Air Force 1 LV8">
+                <h3>Nike Air Force 1 LV8</h3>
+                <p>$130.00</p>
+                <button class="add-to-cart" data-name="Nike Air Force 1 LV8" data-price="$130.00" data-image="images/new-air-force.jpg">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="images/new-yeezy-foam.jpg" alt="Adidas Yeezy Foam Runner">
+                <h3>Adidas Yeezy Foam Runner</h3>
+                <p>$180.00</p>
+                <button class="add-to-cart" data-name="Adidas Yeezy Foam Runner" data-price="$180.00" data-image="images/new-yeezy-foam.jpg">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="images/new-air-max-plus.jpg" alt="Nike Air Max Plus OG">
+                <h3>Nike Air Max Plus OG</h3>
+                <p>$190.00</p>
+                <button class="add-to-cart" data-name="Nike Air Max Plus OG" data-price="$190.00" data-image="images/new-air-max-plus.jpg">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="images/new-adidas-forum.jpg" alt="Adidas Forum Low">
+                <h3>Adidas Forum Low</h3>
+                <p>$110.00</p>
+                <button class="add-to-cart" data-name="Adidas Forum Low" data-price="$110.00" data-image="images/new-adidas-forum.jpg">Add to Cart</button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+            const cartCount = document.getElementById("cart-count");
+
+            document.querySelectorAll(".add-to-cart").forEach(button => {
+                button.addEventListener("click", function () {
+                    const product = {
+                        name: button.getAttribute("data-name"),
+                        price: button.getAttribute("data-price"),
+                        image: button.getAttribute("data-image"),
+                        quantity: 1
+                    };
+
+                    const existingProductIndex = cart.findIndex(item => item.name === product.name);
+                    if (existingProductIndex >= 0) {
+                        cart[existingProductIndex].quantity += 1;
+                    } else {
+                        cart.push(product);
+                    }
+
+                    localStorage.setItem("cartItems", JSON.stringify(cart));
+                    updateCartCount();
+                });
+            });
+
+            function updateCartCount() {
+                cartCount.textContent = cart.length;
+            }
+
+            updateCartCount();
+        });
+    </script>
+
+</body>
+</html>

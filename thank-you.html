@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You - Unlimited Kickz</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background: #f9f9f9;
+        }
+
+        .thank-you-container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .thank-you-container h1 {
+            color: green;
+        }
+
+        .thank-you-container p {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        .order-summary {
+            text-align: left;
+            margin-top: 20px;
+            padding: 10px;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .return-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background: black;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+
+        .return-btn:hover {
+            background: red;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="thank-you-container">
+        <h1>🎉 Thank You for Your Purchase! 🎉</h1>
+        <p>Your order has been placed successfully. You will receive a confirmation email shortly.</p>
+
+        <div class="order-summary">
+            <h2>Order Summary</h2>
+            <div id="order-details"></div>
+            <p><strong>Total:</strong> $<span id="total-price">0.00</span></p>
+        </div>
+
+        <a href="index.html" class="return-btn">Return to Homepage</a>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Simulate the last order being saved when the user completes checkout
+            let order = JSON.parse(localStorage.getItem("lastOrder")) || [];
+            const orderDetailsContainer = document.getElementById("order-details");
+            const totalPriceElement = document.getElementById("total-price");
+
+            if (order.length === 0) {
+                orderDetailsContainer.innerHTML = "<p>No recent orders found.</p>";
+                return;
+            }
+
+            let totalPrice = 0;
+            order.forEach(item => {
+                totalPrice += item.price * item.quantity;
+                const itemElement = document.createElement("div");
+                itemElement.innerHTML = `<p>${item.name} (x${item.quantity}) - $${item.price.toFixed(2)}</p>`;
+                orderDetailsContainer.appendChild(itemElement);
+            });
+
+            totalPriceElement.textContent = totalPrice.toFixed(2);
+            localStorage.removeItem("lastOrder"); // Clear order details after display
+        });
+    </script>
+
+</body>
+</html>
